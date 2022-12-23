@@ -14,12 +14,10 @@
 
 """Python library for Splunk."""
 
-from __future__ import absolute_import
-from splunklib.six.moves import map
 import logging
 
 DEFAULT_LOG_FORMAT = '%(asctime)s, Level=%(levelname)s, Pid=%(process)s, Logger=%(name)s, File=%(filename)s, ' \
-                 'Line=%(lineno)s, %(message)s'
+                     'Line=%(lineno)s, %(message)s'
 DEFAULT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S %Z'
 
 
@@ -31,5 +29,51 @@ def setup_logging(level, log_format=DEFAULT_LOG_FORMAT, date_format=DEFAULT_DATE
                         format=log_format,
                         datefmt=date_format)
 
+
+def ensure_binary(s, encoding='utf-8', errors='strict'):
+    """
+      - `str` -> encoded to `bytes`
+      - `bytes` -> `bytes`
+    """
+    if isinstance(s, str):
+        return s.encode(encoding, errors)
+
+    if isinstance(s, bytes):
+        return s
+
+    raise TypeError(f"not expecting type '{type(s)}'")
+
+
+def ensure_str(s, encoding='utf-8', errors='strict'):
+    """
+      - `str` -> `str`
+      - `bytes` -> decoded to `str`
+    """
+    if isinstance(s, bytes):
+        return s.decode(encoding, errors)
+
+    if isinstance(s, str):
+        return s
+
+    raise TypeError(f"not expecting type '{type(s)}'")
+
+
+def ensure_text(s, encoding='utf-8', errors='strict'):
+    """
+      - `str` -> `str`
+      - `bytes` -> decoded to `str`
+    """
+    if isinstance(s, bytes):
+        return s.decode(encoding, errors)
+    if isinstance(s, str):
+        return s
+    raise TypeError(f"not expecting type '{type(s)}'")
+
+
+def assertRegex(self, *args, **kwargs):
+    return getattr(self, "assertRegex")(*args, **kwargs)
+
+
 __version_info__ = (1, 7, 2)
+
 __version__ = ".".join(map(str, __version_info__))

@@ -14,8 +14,6 @@
 
 """Command line utilities shared by command line tools & unit tests."""
 
-from __future__ import absolute_import
-from __future__ import print_function
 from os import path
 from optparse import OptionParser
 import sys
@@ -25,7 +23,7 @@ __all__ = [ "error", "Parser", "cmdline" ]
 
 # Print the given message to stderr, and optionally exit
 def error(message, exitcode = None):
-    print("Error: %s" % message, file=sys.stderr)
+    print(f"Error: {message}", file=sys.stderr)
     if exitcode is not None: sys.exit(exitcode)
 
 
